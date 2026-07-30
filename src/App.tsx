@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Tip } from "./components/Tip";
+import { Letter } from "./components/Letter";
 import styles from "./app.module.css";
 
 export default function App() {
@@ -12,6 +13,12 @@ export default function App() {
       <main>
         <Header current={5} max={10} onRestart={handleRestartGame} />
         <Tip tip="Linguagem de programação mais utilizada no mercado" />
+
+        <div className={styles.word}>
+          <Letter value="L" />
+          <Letter value="E" />
+          <Letter value="O" />
+        </div>
       </main>
     </div>
   );
