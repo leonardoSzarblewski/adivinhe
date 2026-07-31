@@ -6,7 +6,8 @@ import { Input } from "./components/Input";
 import { Button } from "./components/Button";
 import { LettersUsed } from "./components/LettersUsed";
 
-import { WORDS, type Challenge } from "./utils/words";
+import { WORDS } from "./utils/words";
+import type { Challenge } from "./utils/words";
 
 import styles from "./app.module.css";
 
@@ -32,6 +33,10 @@ export default function App() {
     startGame();
   }, []);
 
+  if (!challenge) {
+    return;
+  }
+
   return (
     <div className={styles.container}>
       <main>
@@ -40,10 +45,11 @@ export default function App() {
         <Tip tip="Linguagem de programação mais utilizada no mercado" />
 
         <div className={styles.word}>
-          <Letter value="L" />
-          <Letter value="E" />
-          <Letter value="O" />
+          {challenge.word.split("").map(() => (
+            <Letter value="" />
+          ))}
         </div>
+
         <h4>Palpite</h4>
         <div className={styles.guess}>
           <Input autoFocus maxLength={1} placeholder="?" />
