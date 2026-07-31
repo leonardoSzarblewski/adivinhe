@@ -14,9 +14,8 @@ import styles from "./app.module.css";
 
 export default function App() {
   const [score, setScore] = useState(0);
-  const [attempts, setAttempts] = useState(0);
   const [letter, setLetter] = useState("");
-  const [letterUsed, setLetterUsed] = useState<LetterUsedProps[]>([]);
+  const [lettersUsed, setLetterUsed] = useState<LetterUsedProps[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
 
   function handleRestartGame() {
@@ -28,8 +27,9 @@ export default function App() {
     const randomWord = WORDS[index];
 
     setChallenge(randomWord);
-    setAttempts(0);
+    setScore(0);
     setLetter("");
+    setLetterUsed([]);
   }
 
   function handleConfirm() {
@@ -42,7 +42,7 @@ export default function App() {
     }
 
     const value = letter.toUpperCase();
-    const exists = letterUsed.find(
+    const exists = lettersUsed.find(
       (used) => used.value.toUpperCase() === value,
     );
 
@@ -75,14 +75,24 @@ export default function App() {
   return (
     <div className={styles.container}>
       <main>
-        <Header current={attempts} max={10} onRestart={handleRestartGame} />
+        <Header current={score} max={10} onRestart={handleRestartGame} />
 
         <Tip tip={challenge.tip} />
 
         <div className={styles.word}>
-          {challenge.word.split("").map(() => (
-            <Letter value="" />
-          ))}
+          {challenge.word.split("").map((letter, index) => {
+            const letterUsed = lettersUsed.find(
+              (used) => used.value.toUpperCase() === letter.toUpperCase(),
+            );
+
+            return (
+              <Letter
+                key={index}
+                value={letterUsed?.value}
+                color={letterUsed?.correct ? "correct" : "default"}
+              />
+            );
+          })}
         </div>
 
         <h4>Palpite</h4>
@@ -99,7 +109,7 @@ export default function App() {
           <Button title="Confirmar" onClick={handleConfirm} />
         </div>
 
-        <LettersUsed data={letterUsed} />
+        <LettersUsed data={lettersUsed} />
       </main>
     </div>
   );
