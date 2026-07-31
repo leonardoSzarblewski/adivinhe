@@ -5,6 +5,7 @@ import { Letter } from "./components/Letter";
 import { Input } from "./components/Input";
 import { Button } from "./components/Button";
 import { LettersUsed } from "./components/LettersUsed";
+import type { LetterUsedProps } from "./components/LettersUsed";
 
 import { WORDS } from "./utils/words";
 import type { Challenge } from "./utils/words";
@@ -14,6 +15,7 @@ import styles from "./app.module.css";
 export default function App() {
   const [attempts, setAttempts] = useState(0);
   const [letter, setLetter] = useState("");
+  const [letterUsed, setLetterUsed] = useState<LetterUsedProps[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
 
   function handleRestartGame() {
@@ -55,7 +57,8 @@ export default function App() {
           <Input autoFocus maxLength={1} placeholder="?" />
           <Button title="Confirmar" />
         </div>
-        <LettersUsed />
+
+        <LettersUsed data={letterUsed} />
       </main>
     </div>
   );
